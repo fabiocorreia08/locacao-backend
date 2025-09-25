@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,7 +28,9 @@ public class Locador implements Serializable{
     private String cpf;
     private String telefone;
     private String email;
-    private String endereco;
+
+    @Embedded
+    private Endereco endereco;
 
     @Temporal(TemporalType.DATE)
     private Date dataCadastro;

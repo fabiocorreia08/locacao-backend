@@ -3,6 +3,7 @@ package br.com.locacao.entity;
 import java.io.Serializable;
 import java.util.List;
 
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,12 +23,12 @@ public class Imovel implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String tipo;
-    private String endereco;
+    private String tipo;    
     private String descricao;
-    private double valorBase;
-    private String status;
-
+    
+    @Embedded
+    private Endereco endereco;
+   
     @ManyToOne
     @JoinColumn(name = "locador_id")
     private Locador locador;
