@@ -1,35 +1,38 @@
 package br.com.locacao.entity;
 
-import java.io.Serializable;
-import java.util.List;
+import java.time.LocalDate;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Data
 @Entity
-public class Locatario implements Serializable{
-	   
-	private static final long serialVersionUID = 1L;
-	
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Locatario {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private String nome;
+    @Column(unique = true, nullable = false)
     private String cpf;
     private String telefone;
     private String email;
+        
+    private LocalDate dataCadastro;
 
     @Embedded
     private Endereco endereco;
-    
-    @OneToMany(mappedBy = "locatario")
-    private List<Locacao> locacoes;
 
+    
 }
+

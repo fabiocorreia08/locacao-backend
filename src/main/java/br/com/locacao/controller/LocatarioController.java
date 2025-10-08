@@ -1,9 +1,9 @@
 package br.com.locacao.controller;
 
 
-import java.util.List;
-
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,46 +11,52 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.locacao.entity.Locatario;
+import br.com.locacao.dto.LocatarioDTO;
 import br.com.locacao.service.LocatarioService;
 
 @RestController
-@RequestMapping("/locatarios")
+@RequestMapping("/api/locatarios")
 public class LocatarioController {
 
-    private final LocatarioService service;
-
-    public LocatarioController(LocatarioService service) {
-        this.service = service;
-    }
-
-    @GetMapping
-    public List<Locatario> listarTodos() {
-        return service.listarTodos();
+	@Autowired
+	private LocatarioService service;
+	
+	@GetMapping("/filtrar")
+    public Page<LocatarioDTO> buscarPaginado(
+        @RequestParam(required = false) String nome,
+        Pageable pageable
+    ) {
+        return service.buscarPaginado(nome, pageable);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Locatario> buscarPorId(@PathVariable int id) {
-        return service.buscarPorId(id)
-            .map(ResponseEntity::ok)
-            .orElse(ResponseEntity.notFound().build());
+    public LocatarioDTO buscarPorId(@PathVariable Long id) {
+        return service.buscarPorId(id);
     }
-
+   
+    @GetMapping("/cpf/{cpf}")
+    public LocatarioDTO buscarPorCpf(@PathVariable String cpf) {
+        return service.buscarPorCpf(cpf);
+    }
+    
     @PostMapping
-    public Locatario criar(@RequestBody Locatario locatario) {
-        return service.salvar(locatario);
+    public LocatarioDTO salvar(@RequestBody LocatarioDTO dto) {
+        return service.salvar(dto);
     }
 
     @PutMapping("/{id}")
-    public Locatario atualizar(@PathVariable int id, @RequestBody Locatario locatario) {
-        return service.atualizar(id, locatario);
+    public LocatarioDTO atualizar(@PathVariable Long id, @RequestBody LocatarioDTO dto) {
+        return service.atualizar(id, dto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable int id) {
-        service.deletar(id);
-        return ResponseEntity.noContent().build();
-    }
+    public void remover(@PathVariable Long id) {
+        service.remover(id);
+    }	
+    
+   
+    
 }

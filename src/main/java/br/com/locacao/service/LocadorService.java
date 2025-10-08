@@ -6,49 +6,54 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.locacao.dto.ImovelDTO;
-import br.com.locacao.entity.Imovel;
-import br.com.locacao.mapper.ImovelMapper;
-import br.com.locacao.repository.ImovelRepository;
+import br.com.locacao.dto.LocadorDTO;
+import br.com.locacao.entity.Locador;
+import br.com.locacao.mapper.LocadorMapper;
+import br.com.locacao.repository.LocadorRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ImovelService {
+public class LocadorService {
 
 	@Autowired
-    private ImovelRepository repository;
+    private LocadorRepository repository;
 	
 	@Autowired
-    private ImovelMapper mapper;
+    private LocadorMapper mapper;
 
-    public List<ImovelDTO> buscarTodos() {
+    public List<LocadorDTO> buscarTodos() {
         return repository.findAll().stream()
                 .map(mapper::toDTO)
                 .collect(Collectors.toList());
     }
 
-    public ImovelDTO buscarPorId(Long id) {
+    public LocadorDTO buscarPorId(Long id) {
         return repository.findById(id)
                 .map(mapper::toDTO)
                 .orElseThrow(() -> new RuntimeException("Imóvel não encontrado"));
     }
 
-    public ImovelDTO salvar(ImovelDTO dto) {
-        Imovel imovel = mapper.toEntity(dto);
-        Imovel salvo = repository.save(imovel);
+    public LocadorDTO salvar(LocadorDTO dto) {
+    	if (repository.existsByCpf(dto.getCpf())) {
+            throw new RuntimeException("CPF já cadastrado.");
+        }
+        Locador imovel = mapper.toEntity(dto);
+        Locador salvo = repository.save(imovel);
         return mapper.toDTO(salvo);
     }
 
-    public ImovelDTO atualizar(Long id, ImovelDTO dto) {
-        Imovel existente = repository.findById(id)
+    public LocadorDTO atualizar(Long id, LocadorDTO dto) {
+    	
+        Locador existente = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Imóvel não encontrado"));
         dto.setId(id);
-        Imovel atualizado = mapper.toEntity(dto);
+        Locador atualizado = mapper.toEntity(dto);
         return mapper.toDTO(repository.save(atualizado));
     }
 
     public void remover(Long id) {
         repository.deleteById(id);
     }
+
 }

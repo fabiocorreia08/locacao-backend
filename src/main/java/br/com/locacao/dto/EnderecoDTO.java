@@ -1,15 +1,13 @@
-package br.com.locacao.entity;
+package br.com.locacao.dto;
 
-import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Embeddable
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Endereco {
+public class EnderecoDTO {
 
     private String logradouro;
     private String numero;
@@ -20,3 +18,4 @@ public class Endereco {
     private String cep;
     
 }
+

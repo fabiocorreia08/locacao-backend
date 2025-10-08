@@ -2,7 +2,7 @@ package br.com.locacao.controller;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,45 +12,39 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.locacao.entity.Imovel;
+import br.com.locacao.dto.ImovelDTO;
 import br.com.locacao.service.ImovelService;
 
 @RestController
-@RequestMapping("/imoveis")
+@RequestMapping("/api/imoveis")
 public class ImovelController {
 	
-	private final ImovelService service;
+	@Autowired
+	private ImovelService service;
 
-    public ImovelController(ImovelService service) {
-        this.service = service;
-    }
-
-    @GetMapping
-    public List<Imovel> listarTodos() {
-        return service.listarTodos();
+	@GetMapping
+    public List<ImovelDTO> buscarTodos() {
+        return service.buscarTodos();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Imovel> buscarPorId(@PathVariable int id) {
-        return service.buscarPorId(id)
-            .map(ResponseEntity::ok)
-            .orElse(ResponseEntity.notFound().build());
+    public ImovelDTO buscarPorId(@PathVariable Long id) {
+        return service.buscarPorId(id);
     }
 
     @PostMapping
-    public Imovel salvar(@RequestBody Imovel imovel) {
-        return service.salvar(imovel);
+    public ImovelDTO salvar(@RequestBody ImovelDTO dto) {
+        return service.salvar(dto);
     }
 
     @PutMapping("/{id}")
-    public Imovel atualizar(@PathVariable int id, @RequestBody Imovel imovel) {
-        return service.atualizar(id, imovel);
+    public ImovelDTO atualizar(@PathVariable Long id, @RequestBody ImovelDTO dto) {
+        return service.atualizar(id, dto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable int id) {
-        service.deletar(id);
-        return ResponseEntity.noContent().build();
-    }
+    public void remover(@PathVariable Long id) {
+        service.remover(id);
+    }	
 
 }

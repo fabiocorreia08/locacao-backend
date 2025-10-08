@@ -37,6 +37,27 @@
 			<version>${spring.boot.version}</version>
 		</dependency>
 		
+		<!-- Spring Boot Starter Web -->
+		<dependency>
+		  <groupId>org.springframework.boot</groupId>
+		  <artifactId>spring-boot-starter-web</artifactId>
+		  <version>${spring.boot.version}</version>
+		</dependency>
+		
+		<!-- Spring Boot Starter Security -->
+		<dependency>
+		  <groupId>org.springframework.boot</groupId>
+		  <artifactId>spring-boot-starter-security</artifactId>
+		  <version>${spring.boot.version}</version>
+		</dependency>
+		
+		<!-- JWT (Java JWT da Auth0) -->
+		<dependency>
+		  <groupId>com.auth0</groupId>
+		  <artifactId>java-jwt</artifactId>
+		  <version>4.4.0</version>
+		</dependency>
+		
 		<dependency>
 		    <groupId>org.hibernate</groupId>
 		    <artifactId>hibernate-envers</artifactId>
@@ -66,17 +87,30 @@
 	        <groupId>org.modelmapper</groupId>
 	        <artifactId>modelmapper</artifactId>
 	        <version>3.1.1</version>
-	    </dependency>
-        <!--        
+	    </dependency>	
+	    
+	    <dependency>
+		  <groupId>org.mapstruct</groupId>
+		  <artifactId>mapstruct</artifactId>
+		  <version>1.5.5.Final</version>
+		</dependency>
+		<dependency>
+		  <groupId>org.mapstruct</groupId>
+		  <artifactId>mapstruct-processor</artifactId>
+		  <version>1.5.5.Final</version>
+		  <scope>provided</scope>
+		</dependency>
+		<!--    		        
         <dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-security</artifactId>
 		    <version>${spring.boot.version}</version>
 		</dependency>
-        -->
+		-->        
     </dependencies>
 
     <build>
+    	<finalName>locacao</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -93,6 +127,7 @@
                     <compilerArgs>
                     	<arg>-parameters</arg>
                 	</compilerArgs>
+                	
                 </configuration>
             </plugin>
         </plugins>
