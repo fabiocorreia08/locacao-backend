@@ -22,21 +22,19 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable()) // Desativa CSRF para APIs REST
+            .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Preflight para CORS
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers(
-                    "/api/auth/**",       // Endpoints públicos de autenticação
-                    "/",                  // Página raiz
-                    "/index.html",        // Frontend SPA
-                    "/favicon.ico",
-                    "/manifest.json",
-                    "/static/**"          // Arquivos estáticos
+                    "/api/auth/**",        // login, token
+                    "/api/usuarios",       // cadastro de usuário (POST público)
+                    "/", "/index.html",
+                    "/favicon.ico", "/manifest.json", "/static/**"
                 ).permitAll()
-                .anyRequest().authenticated() // Todas as outras rotas exigem autenticação
+                .anyRequest().authenticated()
             )
-            .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless para JWT
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // Filtro JWT antes do padrão
+            .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
