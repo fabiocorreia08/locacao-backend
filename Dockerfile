@@ -8,6 +8,7 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:17-jdk-alpine
 WORKDIR /app
 
+ENV PATH="/app/bin:$PATH"
 ENV NO_COLOR=true
 ENV TERM=dumb
 
