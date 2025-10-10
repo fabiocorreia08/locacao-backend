@@ -37,13 +37,6 @@
 			<version>${spring.boot.version}</version>
 		</dependency>
 		
-		<!-- Spring Boot Starter Web -->
-		<dependency>
-		  <groupId>org.springframework.boot</groupId>
-		  <artifactId>spring-boot-starter-web</artifactId>
-		  <version>${spring.boot.version}</version>
-		</dependency>
-		
 		<!-- Spring Boot Starter Security -->
 		<dependency>
 		  <groupId>org.springframework.boot</groupId>
@@ -57,25 +50,13 @@
 		  <artifactId>java-jwt</artifactId>
 		  <version>4.4.0</version>
 		</dependency>
-		
-		<dependency>
-		    <groupId>org.hibernate</groupId>
-		    <artifactId>hibernate-envers</artifactId>
-		    <version>6.4.2.Final</version> 
-		</dependency>
-				
+						
 		<dependency>
 		    <groupId>org.postgresql</groupId>
 		    <artifactId>postgresql</artifactId>
 		    <version>42.7.7</version>
 		</dependency>
 		
-        <dependency>
-            <groupId>jakarta.persistence</groupId>
-            <artifactId>jakarta.persistence-api</artifactId>
-            <version>3.1.0</version>
-        </dependency>
-       
 		<dependency>
 		    <groupId>org.projectlombok</groupId>
 		    <artifactId>lombok</artifactId>
