@@ -3,6 +3,8 @@ package br.com.locacao.config;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -11,18 +13,21 @@ import java.util.Date;
 @Service
 public class JwtService {
 
-    private static final String SECRET_KEY = "sua-chave-secreta-aqui"; // 🔐 Use uma chave segura e externa
-    private static final long EXPIRATION_TIME = 24 * 60 * 60 * 1000; // 24h em milissegundos
-
+	@Value("${jwt.expiration}")
+	private long expirationTime;
+	
+	@Value("${jwt.secret}")
+	private String secretKey;
+	
     private Algorithm getAlgorithm() {
-        return Algorithm.HMAC256(SECRET_KEY);
+        return Algorithm.HMAC256(secretKey);
     }
 
     public String generateToken(String username) {
         return JWT.create()
                 .withSubject(username)
                 .withIssuedAt(new Date())
-                .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .withExpiresAt(new Date(System.currentTimeMillis() + expirationTime))
                 .sign(getAlgorithm());
     }
 
