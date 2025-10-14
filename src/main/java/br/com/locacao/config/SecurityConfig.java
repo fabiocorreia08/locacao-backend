@@ -28,6 +28,7 @@ public class SecurityConfig {
                 .requestMatchers(
                     "/api/auth/**",        // login, token
                     "/api/usuarios",       // cadastro de usuário (POST público)
+                    "/api/teste",          // endpoint público de teste
                     "/", "/index.html",
                     "/favicon.ico", "/manifest.json", "/static/**"
                 ).permitAll()
