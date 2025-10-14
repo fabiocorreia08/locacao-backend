@@ -14,7 +14,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 // Lê o domínio do frontend via variável de ambiente
-                String frontendUrl = System.getenv("REACT_APP_API_URL");
+                String frontendUrl = System.getenv("FRONTEND_URLS");
 
                 // Domínio padrão para desenvolvimento local
                 if (frontendUrl == null || frontendUrl.isBlank()) {
