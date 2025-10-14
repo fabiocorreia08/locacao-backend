@@ -13,8 +13,18 @@ public class CorsConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
+                // Lê o domínio do frontend via variável de ambiente
+                String frontendUrl = System.getenv("FRONTEND_URL");
+
+                // Domínio padrão para desenvolvimento local
+                if (frontendUrl == null || frontendUrl.isBlank()) {
+                    frontendUrl = "http://localhost:3000";
+                }
+
+                System.out.println("CORS permitido para: " + frontendUrl);
+
                 registry.addMapping("/**")
-                    .allowedOrigins("http://localhost:3000")
+                    .allowedOrigins(frontendUrl)
                     .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                     .allowedHeaders("*")
                     .allowCredentials(true);
