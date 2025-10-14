@@ -93,25 +93,18 @@
     <build>
     <finalName>locacao</finalName>
     <plugins>
-        <!-- Plugin para gerar o .jar executável com Main-Class -->
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-jar-plugin</artifactId>
-            <version>3.2.0</version>
-            <configuration>
-                <archive>
-                    <manifest>
-                        <mainClass>br.com.locacao.LocacaoApplication</mainClass>
-                    </manifest>
-                </archive>
-            </configuration>
-        </plugin>
-
-        <!-- Plugin do Spring Boot -->
+        <!-- Plugin do Spring Boot para gerar fat jar -->
         <plugin>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-maven-plugin</artifactId>
             <version>${spring.boot.version}</version>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>repackage</goal>
+                    </goals>
+                </execution>
+            </executions>
         </plugin>
 
         <!-- Plugin do compilador -->
@@ -128,5 +121,5 @@
             </configuration>
         </plugin>
     </plugins>
-</build>
+	</build>
 </project>
