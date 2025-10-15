@@ -12,8 +12,7 @@ import br.com.locacao.config.JwtService;
 @RequestMapping("/api/auth")
 @CrossOrigin(origins = {
     "http://localhost:3000",
-    "https://casadaandrea.onrender.com",
-    "https://locacao-backend.onrender.com"
+    "https://locacao-frontend.onrender.com"
 })
 public class AuthController {
 
