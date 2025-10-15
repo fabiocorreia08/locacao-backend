@@ -13,6 +13,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Configuration
@@ -27,17 +28,15 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            // ✅ Habilita o CORS no Spring Security
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .cors(cors -> cors.configurationSource(corsConfigurationSource())) // habilita o CORS
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                // Permite preflight automaticamente
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers(
-                    "/api/auth/**",        // login e register
-                    "/api/usuarios",       // cadastro de usuário
-                    "/api/teste",          // endpoint público
-                    "/", "/index.html",
+                    "/api/auth/**", 
+                    "/api/usuarios",
+                    "/api/teste",
+                    "/", "/index.html", 
                     "/favicon.ico", "/manifest.json", "/static/**"
                 ).permitAll()
                 .anyRequest().authenticated()
@@ -48,22 +47,23 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // ✅ Configuração de CORS aplicada dentro do Spring Security
+    // 🔧 Configuração CORS totalmente explícita
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-
-        configuration.setAllowedOrigins(List.of(
-            "http://localhost:3000",
-            "https://locacao-frontend.onrender.com"
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(List.of(
+            "https://locacao-frontend.onrender.com",
+            "http://localhost:3000"
         ));
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-Requested-With"));
-        configuration.setExposedHeaders(List.of("Authorization"));
-        configuration.setAllowCredentials(true);
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With"));
+        config.setExposedHeaders(List.of("Authorization"));
+        config.setAllowCredentials(true);
+        config.setMaxAge(3600L); // cache da config no navegador
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        // 🔥 aplica a configuração a todos os endpoints
+        source.registerCorsConfiguration("/**", config);
 
         return source;
     }
