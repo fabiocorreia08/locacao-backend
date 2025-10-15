@@ -36,4 +36,16 @@ public class AuthController {
 
         return ResponseEntity.ok(new AuthResponse(token));
     }
+    
+    @RequestMapping(value = "/login", method = RequestMethod.OPTIONS)
+    public ResponseEntity<?> options() {
+        return ResponseEntity.ok().build();
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.HEAD)
+    public ResponseEntity<?> head() {
+        return ResponseEntity.ok().build();
+    }
+
+    
 }
